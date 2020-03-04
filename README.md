@@ -21,10 +21,10 @@ $ python chromeDebugging.py
 Here is an example of how to execute the tool using the arguments.
 
 ```
-$ python chromeDebugging.py --test servo_coldboot --ip 192.168.1.234 --command "dmesg" --search_for "HC died" 
+$ python chromeDebugging.py --test reboot --ip 190.128.1.120 --command "dmesg" --search_for "HC died" 
 ```
 
-
+```
 usage: chromeDebugging.py 
 						[-h] [--testcase TESTCASE_TO_RUN]
                         [--test TEST_TO_RUN] [--ip IP_ADDRESS]
@@ -57,4 +57,4 @@ optional arguments:
   --search_for SEARCH_PATTERNS [SEARCH_PATTERNS ...]
                         Provide one or many search strings with space. 
 						If found, test will FAIL/STOP.  
-
+```
