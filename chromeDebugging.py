@@ -319,16 +319,16 @@ if __name__ == "__main__":
             dlogger.info ("Unable to start servod. Exiting test.")
             sys.exit()
 
-    print ("Testcase selected to run                                 :", testcase)
-    print ("Test selected to run                                     :", test_to_run)
-    print ("system ip address is                                     :", ip_address)
-    print ("after_test_delay for device initialization in seconds    :", wait_device_initialization)
-    print ("Iteration_count is                                       :", iteration_count)
-    print ("cmd to run after selected test                           :", cmd_to_run)
-    print ("stop test if pattern matches                             :", pattern_list)
+    print ("Testcase selected to run                                 : ", testcase)
+    print ("Test selected to run                                     : ", test_to_run)
+    print ("System IP address is                                     : ", ip_address)
+    print ("[after_test_delay] for device initialization in seconds  : ", wait_device_initialization)
+    print ("Iteration_count is                                       : ", iteration_count)
+    print ("[cmd_to_run] after selected test                         : ", cmd_to_run)
+    print ("Stop test if pattern matches                             : ", pattern_list)
     if test_to_run == "servo_coldboot":
-        print ("cros_sdk_path is                                         :", cros_sdk_path)
-        print ("abs_cros_sdk_path is                                     :", abs_cros_sdk_path)
+        print ("[cros_sdk_path] is                                   : ", cros_sdk_path)
+        print ("[abs_cros_sdk_path] is                               : ", abs_cros_sdk_path)
         
     print ("**********************************************************")
     
@@ -344,7 +344,7 @@ if __name__ == "__main__":
     while (count < int(iteration_count)):
         dlogger.info ("******************************")
         dlogger.info ("******************************")
-        dlogger.info ("STARTING ITERATION %d of %d" % (count, int(iteration_count)))
+        dlogger.info ("STARTING ITERATION  %d / %d" % (count, int(iteration_count)))
         dlogger.info ("******************************")
         dlogger.info ("******************************")
 
@@ -377,7 +377,7 @@ if __name__ == "__main__":
             break
     dlogger.info ("******************************")
     dlogger.info ("******************************")
-    dlogger.info ("Completed ITERATION %d of %d" % (count, int(iteration_count)))
+    dlogger.info ("COMPLETED ITERATION  %d / %d" % (count, int(iteration_count)))
     dlogger.info ("******************************")
     dlogger.info ("******************************")
 
