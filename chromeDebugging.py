@@ -48,7 +48,7 @@ def check_if_remote_system_is_live(ip):
 def run_command(command, dut_ip, username="root", password="test0000"):
     
     if check_if_remote_system_is_live(dut_ip):
-        sshpassCmd = "sshpass -p " + password + " ssh " + username + "@" + dut_ip + " '" + command +  "'"
+        sshpassCmd = "sshpass -p " + password + " ssh " + username + "@" + dut_ip + " '" + command +  "' "
         print (sshpassCmd)
         p = subprocess.Popen(sshpassCmd, stdout=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
@@ -171,7 +171,8 @@ def searchPatternMatched(searchInString, pattern_list=None):
     matched = []
     for search_item in pattern_list:
         if re.search(search_item, searchInString, re.IGNORECASE):
-            print ("MATCHED ON [%s]" % (search_item))
+            print("MATCHED ON [%s]" % (search_item))
+            dlogger.info("MATCHED ON [%s]" % (search_item))
             matched.append(search_item)
     if len(matched) >= 1:
         return matched
@@ -375,6 +376,7 @@ if __name__ == "__main__":
         else:
             dlogger.info ("please check the command you are trying!")
             break
+            
     dlogger.info ("******************************")
     dlogger.info ("******************************")
     dlogger.info ("COMPLETED ITERATION  %d / %d" % (count, int(iteration_count)))
