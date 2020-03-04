@@ -46,13 +46,13 @@ def check_if_remote_system_is_live(ip):
         return False
 
 def run_command(command, dut_ip, username="root", password="test0000"):
-    
+
     if check_if_remote_system_is_live(dut_ip):
         sshpassCmd = "sshpass -p " + password + " ssh " + username + "@" + dut_ip + " '" + command +  "' "
         print (sshpassCmd)
         p = subprocess.Popen(sshpassCmd, stdout=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
-        
+
         ## Wait for command to terminate. Get return returncode ##
         p_status = p.wait()
         # print ("Command output : ", output)
@@ -63,7 +63,7 @@ def run_command(command, dut_ip, username="root", password="test0000"):
             return output.decode('ascii')
 
 def run_reboot(dut_ip, username="root", password="test0000", reboot_wait_time=60, wait_device_initialization=20):
-    
+
     if check_if_remote_system_is_live(dut_ip):
         sshpassCmd = "sshpass -p " + password + " ssh -o StrictHostKeyChecking=no " + username + "@" + dut_ip + " 'reboot'"
         print (sshpassCmd)
@@ -86,7 +86,7 @@ def run_reboot(dut_ip, username="root", password="test0000", reboot_wait_time=60
         return False
 
 def rtc_cold_reboot(dut_ip, username="root", password="test0000", shutdown_wait_time=10, reboot_wait_time=80, wait_device_initialization=20):
-    
+
     if check_if_remote_system_is_live(dut_ip):
         sshpassCmd1 = "sshpass -p " + password + " ssh -o StrictHostKeyChecking=no " + username + "@" + dut_ip + " 'echo +15 > /sys/class/rtc/rtc0/wakealarm' "
         print (sshpassCmd1)
@@ -112,13 +112,13 @@ def rtc_cold_reboot(dut_ip, username="root", password="test0000", shutdown_wait_
         return False
 
 def ec_pwrbtn():
-    os.chdir(cros_sdk_path)	
+    os.chdir(cros_sdk_path)
     dlogger.info (os.getcwd())
     ec_console_powerbtn_command = 'python' + ' ' + abs_cros_sdk_path + ' ' + 'dut-control ec_uart_cmd:powerbtn'
     os.system(ec_console_powerbtn_command)
 
 def ec_cold_reboot(dut_ip, username="root", password="test0000", shutdown_wait_time=10, reboot_wait_time=120, wait_device_initialization=wait_device_initialization):
-    
+
     if check_if_remote_system_is_live(dut_ip):
         sshpassCmd1 = "sshpass -p " + password + " ssh -o StrictHostKeyChecking=no " + username + "@" + dut_ip + " 'ectool reboot_ec cold at-shutdown'"
         dlogger.info (sshpassCmd1)
@@ -143,7 +143,7 @@ def ec_cold_reboot(dut_ip, username="root", password="test0000", shutdown_wait_t
                 if check_if_remote_system_is_live(dut_ip):
                     dlogger.info ("Waiting for %d seconds for device initialization after boot."%(wait_device_initialization))
                     time.sleep(wait_device_initialization)
-                    return True    
+                    return True
         else:
             dlogger.info ("system didn't shutdown after %d seconds wait delay" % (shutdown_wait_time))
             return False
@@ -157,17 +157,17 @@ def run_suspend(dut_ip, username="root", password="test0000"):
         suspend_output = run_command(suspendCmd, dut_ip )
         if suspend_output:
             if searchPatternMatched(suspend_output, pattern_list=["suspend_failures: 0", "firmware log errors: 0"]):
-                return True 
+                return True
             else:
                 print ("No suspend failures observed!")
-                return False   
+                return False
         else:
-            return False    
+            return False
 
 def searchPatternMatched(searchInString, pattern_list=None):
     if not pattern_list:
         return False
-    
+
     matched = []
     for search_item in pattern_list:
         if re.search(search_item, searchInString, re.IGNORECASE):
@@ -187,7 +187,7 @@ def is_tool(name):
     return find_executable(name) is not None
 
 def servod_process(cros_sdk_path, abs_cros_sdk_path):
-    import subprocess    
+    import subprocess
     script_working_directory = os.getcwd()
     # os.system("pgrep servod | xargs sudo kill -9")
     p = subprocess.Popen('pgrep servod', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -201,15 +201,15 @@ def servod_process(cros_sdk_path, abs_cros_sdk_path):
 
     dlogger.info('starting a fresh servod...')
 
-    os.chdir(cros_sdk_path)	
+    os.chdir(cros_sdk_path)
     dlogger.info (os.getcwd())
-    
+
 
     servod_cmd = 'python ' + abs_cros_sdk_path + ' ' + 'sudo ' + 'servod ' + '--board=cyan ' + '&'
     os.system(servod_cmd)
     time.sleep(15)
-    
-    
+
+
     output = subprocess.Popen(['pgrep', 'servod'], stdout=subprocess.PIPE).communicate()[0]
 
     if output:
@@ -218,7 +218,7 @@ def servod_process(cros_sdk_path, abs_cros_sdk_path):
     else:
         dlogger.info("Servod couldn't be started successfully. Exiting test.")
         return False
-    
+
 
 def servo_coldboot(dut_ip, username="root", password="test0000"):
     pwr_btn_command = 'python' + ' ' + abs_cros_sdk_path + ' ' + 'dut-control pwr_button:press sleep:0.5 pwr_button:release'
@@ -231,10 +231,10 @@ def servo_coldboot(dut_ip, username="root", password="test0000"):
     time.sleep(shutdown_wait_time)
     if not check_if_remote_system_is_live(dut_ip):
         dlogger.info ("System shutdown successfull.")
-	
-    os.chdir(cros_sdk_path)	
+
+    os.chdir(cros_sdk_path)
     dlogger.info (os.getcwd())
-    
+
     ec_uart_capture_enable_command = 'python' + ' ' + abs_cros_sdk_path + ' ' + 'dut-control ec_uart_capture:on'
     ec_uart_capture_disable_command = 'python' + ' ' + abs_cros_sdk_path + ' ' + 'dut-control ec_uart_capture:off'
     ec_console_system_status_command = 'python' + ' ' + abs_cros_sdk_path + ' ' + 'dut-control ec_uart_cmd:powerinfo'
@@ -244,13 +244,13 @@ def servo_coldboot(dut_ip, username="root", password="test0000"):
     system_status_check = os.popen(ec_console_system_status_output).read()
     os.system(ec_uart_capture_disable_command)
     dlogger.info (system_status_check)
-    
+
     if system_status_check.find("G3") != -1:
         dlogger.info ("System successfully went to G3")
     else:
         dlogger.info ("System is not going to G3. Exiting test")
         return False
-		
+
     dlogger.info ("Pressing powerbtn to poweron system")
     for i in range(3):
         os.system(pwr_btn_command)
@@ -274,14 +274,14 @@ def servo_coldboot(dut_ip, username="root", password="test0000"):
             return True
     dlogger.info("3 attempts of powerbtn wake and 1 attempt of ec reset failed to recover system. Exiting test.")
     return False
-  
+
 
 
 if __name__ == "__main__":
 
     if not is_tool("sshpass"):
         dlogger.info ("sshpass is not installed. Please install sshpass with sudo apt-get install sshpass")
-        dlogger.info ("Exiting test!")
+        dlogger.info ("Exiting!")
         sys.exit(1)
 
     parser = argparse.ArgumentParser()
@@ -298,20 +298,20 @@ if __name__ == "__main__":
 
     testcase = args.testcase_to_run.lower()
     cmd_to_run = args.cmd_to_run
-    
+
     if args.ip_address:
         ip_address = args.ip_address
     else:
         ip_address = False
         dlogger.info ("check with --help or give cmd argument --ip <ip_address>")
         sys.exit(1)
-        
-    
-    
+
+
+
     wait_device_initialization = float(args.wait_device_initialization)
     iteration_count = args.iteration_count
     test_to_run = args.test_to_run
-    
+
     if test_to_run == "servo_coldboot":
         if servod_process(cros_sdk_path, abs_cros_sdk_path):
             dlogger.info ("Servod PASS. Will continue test.**************")
@@ -328,20 +328,20 @@ if __name__ == "__main__":
     print ("[cmd_to_run] after selected test                         : ", cmd_to_run)
     print ("Stop test if pattern matches                             : ", pattern_list)
     if test_to_run == "servo_coldboot":
-        print ("[cros_sdk_path] is                                   : ", cros_sdk_path)
-        print ("[abs_cros_sdk_path] is                               : ", abs_cros_sdk_path)
-        
+        print ("[cros_sdk_path] is                                       : ", cros_sdk_path)
+        print ("[abs_cros_sdk_path] is                                   : ", abs_cros_sdk_path)
+
     print ("**********************************************************")
-    
-        
+
+
     if (sys.version_info > (3, 0)):
         input("Press Enter to continue...")
     else:
         raw_input("Press Enter to continue...")
-    
-        
+
+
     count = 1
-    
+
     while (count < int(iteration_count)):
         dlogger.info ("******************************")
         dlogger.info ("******************************")
@@ -363,12 +363,12 @@ if __name__ == "__main__":
         elif test_to_run == "servo_coldboot":
             print (servo_coldboot(ip_address))
         else:
-            print (run_reboot(ip_address, wait_device_initialization=wait_device_initialization))    
-        
+            print (run_reboot(ip_address, wait_device_initialization=wait_device_initialization))
+
         count = count + 1
         cmd_output = run_command(cmd_to_run, ip_address, username="root", password="test0000")
         dlogger.info (cmd_output)
-        if cmd_output:       
+        if cmd_output:
             if searchPatternMatched(cmd_output, pattern_list):
                 break
             else:
@@ -376,11 +376,11 @@ if __name__ == "__main__":
         else:
             dlogger.info ("please check the command you are trying!")
             break
-            
+
     dlogger.info ("******************************")
     dlogger.info ("******************************")
     dlogger.info ("COMPLETED ITERATION  %d / %d" % (count, int(iteration_count)))
     dlogger.info ("******************************")
     dlogger.info ("******************************")
 
-            
+
