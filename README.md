@@ -26,35 +26,38 @@ $ python chromeDebugging.py --test reboot --ip 190.128.1.120 --command "dmesg" -
 
 ```
 usage: chromeDebugging.py 
-						[-h] [--testcase TESTCASE_TO_RUN]
-                        [--test TEST_TO_RUN] [--ip IP_ADDRESS]
-                        [--after_test_delay WAIT_DEVICE_INITIALIZATION]
-                        [--count ITERATION_COUNT] [--command CMD_TO_RUN]
-                        [--search_for SEARCH_PATTERNS [SEARCH_PATTERNS ...]]
+		[-h] [--testcase TESTCASE_TO_RUN]
+                [--test TEST_TO_RUN] [--ip IP_ADDRESS]
+                [--after_test_delay WAIT_DEVICE_INITIALIZATION]
+                [--count ITERATION_COUNT] [--command CMD_TO_RUN]
+                [--search_for SEARCH_PATTERNS [SEARCH_PATTERNS ...]]
 
 optional arguments:
-  -h, --help            show this help message and exit
+  -h, --help    
+  		Show this help message and exit
 
   --testcase TESTCASE_TO_RUN
-                        testcase to run is before reboot or suspend test
+                Specify which testcase to run on system.
+		testcase_to_run is before reboot or suspend the test.
 
   --test TEST_TO_RUN
-						test to run is either "reboot" or "suspend" or
-                        "rtc_coldboot" or "ec_coldboot" or "servo_coldboot"
+		Choose from the following options for test_to_run is either "reboot" 
+		or "suspend" or "rtc_coldboot" or "ec_coldboot" or "servo_coldboot"
 
   --ip IP_ADDRESS
-						provide remote system ip
+		Provide IP of remote system 
 
   --after_test_delay WAIT_DEVICE_INITIALIZATION
-                        Provide Device initialization delay in seconds after test!
+                Provide Device initialization delay in seconds after test!
 
   --count ITERATION_COUNT
-                        Provide iteration count!
+                Provide iteration count!
 
   --command CMD_TO_RUN
-						Please mention the command to check in double quotes!
+		Please mention the command to check in double quotes!
 
   --search_for SEARCH_PATTERNS [SEARCH_PATTERNS ...]
-                        Provide one or many search strings with space. 
-						If found, test will FAIL/STOP.  
+                Provide one or many search strings with space. 
+		If found, test will either return FAIL/STOP.  
 ```
+
